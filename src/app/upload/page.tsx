@@ -45,6 +45,7 @@ export default async function UploadPage() {
     await fs.writeFile(uploadPath, pngBuffer);
 
     revalidatePath("/upload");
+    revalidatePath("/");
   };
 
   return (
