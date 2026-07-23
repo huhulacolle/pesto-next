@@ -86,6 +86,7 @@ export default function Cancan() {
             alt="Fleur Cancan"
             className="w-24 h-24"
             loading="eager"
+            unoptimized
           />
         </div>
       )}

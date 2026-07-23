@@ -33,6 +33,7 @@ export default function RootLayout({
                 src={pirat}
                 alt="decoration mario"
                 className="w-32 h-32 opacity-80"
+                unoptimized
               />
             </div>
             <div className="flex justify-center mb-4">
@@ -41,6 +42,7 @@ export default function RootLayout({
                 alt="Logo"
                 className="pixel-art"
                 loading="eager"
+                unoptimized
               />
             </div>
             <h1
@@ -64,6 +66,7 @@ export default function RootLayout({
               loading="eager"
               alt="decoration mario"
               className="w-32 h-32 opacity-80"
+              unoptimized
             />
           </div>
           <footer className="bg-purple-600 text-yellow-300 text-center p-6 border-t-8 border-pink-500 font-bold">
