@@ -4,8 +4,6 @@ import sizeOf from "image-size";
 import IDrawing from "@/Interface/IDrawing";
 import Modal from "./Modal";
 
-export const dynamic = 'force-dynamic';
-
 export default async function Dessin() {
   const dir = path.join(process.cwd(), "public", "pesto");
   const entries = await fs.readdir(dir);
