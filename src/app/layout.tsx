@@ -58,7 +58,7 @@ export default function RootLayout({
               PestoSauce
             </p>
           </div>
-          {children}
+          <div className="p-8 max-w-6xl mx-auto">{children}</div>
           <Cancan />
           <div className="fixed bottom-0 left-0 pointer-events-none">
             <Image
@@ -72,7 +72,13 @@ export default function RootLayout({
           <footer className="bg-purple-600 text-yellow-300 text-center p-6 border-t-8 border-pink-500 font-bold">
             <p className="text-lg mb-2">
               🌟 PAGE CRÉÉE AVEC PAR HUHULACOLLE ET{" "}
-              <a href="https://youtu.be/GhW8NTyDB_c?si=B2FPOCidUnP4p9sl" target="_blank">HUGOLEMARCHAN</a> ❤️ 🌟
+              <a
+                href="https://youtu.be/GhW8NTyDB_c?si=B2FPOCidUnP4p9sl"
+                target="_blank"
+              >
+                HUGOLEMARCHAN
+              </a>{" "}
+              ❤️ 🌟
             </p>
             <div className="mt-3 flex justify-center gap-2">
               <span>✨</span>
