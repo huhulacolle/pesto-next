@@ -6,11 +6,7 @@ export default function UploadButton(props: {
   action: (formData: FormData) => Promise<void>;
 }) {
   return (
-    <form
-      action={props.action}
-      encType="multipart/form-data"
-      className="gap-4 mb-8"
-    >
+    <form action={props.action} className="gap-4 mb-8">
       <UploadButtonForm />
     </form>
   );

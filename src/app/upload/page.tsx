@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import Modal from "@/components/Modal";
 import UploadButton from "@/components/UploadButton";
 import { revalidatePath } from "next/cache";
+import sharp from "sharp";
 
 export const dynamic = "force-dynamic";
 
@@ -35,10 +36,13 @@ export default async function UploadPage() {
       return;
     }
 
-    const uploadPath = path.join(dir, file.name);
+    const uploadPath = path.join(dir, `${path.parse(file.name).name}.png`);
 
     const bytes = await file.arrayBuffer();
-    await fs.writeFile(uploadPath, Buffer.from(bytes));
+
+    const pngBuffer = await sharp(Buffer.from(bytes)).png().toBuffer();
+
+    await fs.writeFile(uploadPath, pngBuffer);
 
     revalidatePath("/upload");
   };
