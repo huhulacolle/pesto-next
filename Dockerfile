@@ -12,10 +12,6 @@
   # Copy package-related files first to leverage Docker's caching mechanism
   COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
 
-  RUN apt-get update && \
-    apt-get install -y libvips && \
-    rm -rf /var/lib/apt/lists/*
-
   # Install project dependencies with frozen lockfile for reproducible builds
   RUN --mount=type=cache,target=/root/.npm \
       --mount=type=cache,target=/usr/local/share/.cache/yarn \
