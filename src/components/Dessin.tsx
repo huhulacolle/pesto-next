@@ -5,7 +5,8 @@ import IDrawing from "@/Interface/IDrawing";
 import Modal from "./Modal";
 
 export default async function Dessin() {
-  const dir = path.join(process.cwd(), "public", "pesto");
+  const publicFolder = path.resolve('public')
+  const dir = path.join(publicFolder, "pesto");
   const entries = await fs.readdir(dir);
 
   const drawings: IDrawing[] = await Promise.all(
