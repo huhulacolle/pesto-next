@@ -1,6 +1,8 @@
 import fs from "fs/promises";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 export default async function Cool() {
   const dir = path.join(process.cwd(), "public", "pesto");
   const entries = await fs.readdir(dir);
