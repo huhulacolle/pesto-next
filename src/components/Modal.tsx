@@ -45,7 +45,7 @@ export default function Modal(props: { drawings: IDrawing[] }) {
                   width={width}
                   height={height}
                   className="mx-auto"
-                  loading="eager"
+                  loading="lazy"
                 />
               </div>
               <p className="font-bold text-center text-purple-800 text-sm">
