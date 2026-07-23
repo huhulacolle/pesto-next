@@ -9,7 +9,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2mb",
     },
   },
-    trailingSlash: true,
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
