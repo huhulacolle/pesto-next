@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "2mb",
     },
   },
+    trailingSlash: false,
 };
 
 export default nextConfig;
