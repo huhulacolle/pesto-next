@@ -9,6 +9,9 @@ export default async function UploadPage() {
   "use cache";
   cacheTag("dessins");
 
+  const username = process.env.BASIC_AUTH_USER;
+  const password = process.env.BASIC_AUTH_PASSWORD;
+
   const drawings: IDrawing[] = await fetch(
     `${process.env.API_URL}/images`,
   ).then((data) => data.json());
@@ -35,8 +38,13 @@ export default async function UploadPage() {
     );
 
     try {
+      const token = btoa(username + ":" + password);
+
       await fetch(`${process.env.API_URL}/upload`, {
         method: "POST",
+        headers: {
+          Authorization: "Basic " + token,
+        },
         body: formData2,
       });
     } catch (error) {
@@ -51,8 +59,13 @@ export default async function UploadPage() {
     const fileName = formData.get("delete") as string;
 
     try {
+      const token = btoa(username + ":" + password);
+
       await fetch(`${process.env.API_URL}/${fileName}`, {
         method: "DELETE",
+        headers: {
+          Authorization: "Basic " + token,
+        },
       });
     } catch (error) {
       alert(error);

@@ -10,9 +10,9 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    // unoptimized: false,
-    remotePatterns: [new URL(`${process.env.API_URL}/image/**`)],
-    dangerouslyAllowLocalIP: process.env.NODE_ENV == "development",
+    unoptimized: true,
+    // remotePatterns: [new URL(`${process.env.API_URL}/image/**`)],
+    // dangerouslyAllowLocalIP: process.env.NODE_ENV == "development",
   },
   cacheComponents: true,
 };
