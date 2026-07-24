@@ -4,8 +4,12 @@ import IDrawing from "@/Interface/IDrawing";
 import Image from "next/image";
 import path from "path";
 import { useState } from "react";
+import Delete from "./Delete";
 
-export default function Modal(props: { drawings: IDrawing[] }) {
+export default function Modal(props: {
+  drawings: IDrawing[];
+  action?: (formDate: FormData) => Promise<void>;
+}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IDrawing | null>(null);
 
@@ -24,7 +28,7 @@ export default function Modal(props: { drawings: IDrawing[] }) {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {props.drawings.map(({ file, width, height }, i) => {
           const name = path.parse(file).name;
-          const src = `/pesto/${encodeURIComponent(file)}`;
+          const src = file;
           return (
             <div
               key={i}
@@ -32,11 +36,11 @@ export default function Modal(props: { drawings: IDrawing[] }) {
                 const draw: IDrawing = {
                   file: src,
                   height,
-                  width
-                }
-                openModal(draw)
+                  width,
+                };
+                openModal(draw);
               }}
-              className="bg-linear-to-br from-pink-300 to-purple-300 border-4 border-purple-500 p-4 rounded hover:scale-110 transition cursor-pointer shadow-lg"
+              className="flex flex-col justify-between h-full bg-linear-to-br from-pink-300 to-purple-300 border-4 border-purple-500 p-4 rounded hover:scale-110 transition cursor-pointer shadow-lg"
             >
               <div className="bg-white rounded p-3 mb-2 text-center">
                 <Image
@@ -48,9 +52,17 @@ export default function Modal(props: { drawings: IDrawing[] }) {
                   loading="lazy"
                 />
               </div>
+
               <p className="font-bold text-center text-purple-800 text-sm">
                 {name}
               </p>
+              {props.action ? (
+                <form action={props.action}>
+                  <Delete file={path.parse(file).base} />
+                </form>
+              ) : (
+                <></>
+              )}
             </div>
           );
         })}

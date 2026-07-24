@@ -1,34 +1,20 @@
 import IDrawing from "@/Interface/IDrawing";
-import path from "path";
-import sizeOf from "image-size";
-import fs from "fs/promises";
 import Modal from "@/components/Modal";
 import UploadButton from "@/components/UploadButton";
-import { revalidatePath } from "next/cache";
+import { cacheTag, updateTag } from "next/cache";
+import path from "path";
 import sharp from "sharp";
 
-export const dynamic = "force-dynamic";
-
 export default async function UploadPage() {
-  const dir = path.join(process.cwd(), "public", "pesto");
-  const entries = await fs.readdir(dir);
+  "use cache";
+  cacheTag("dessins");
 
-  const drawings: IDrawing[] = await Promise.all(
-    entries.map(async (file) => {
-      const { width, height } = sizeOf(
-        await fs.readFile(path.join(dir, file)),
-      ) as {
-        width: number;
-        height: number;
-      };
-      return { file, width, height };
-    }),
-  );
+  const drawings: IDrawing[] = await fetch(
+    `${process.env.API_URL}/images`,
+  ).then((data) => data.json());
 
   const uploadDrawing = async (formData: FormData) => {
     "use server";
-
-    // await new Promise(resolve => setTimeout(resolve, 10000));
 
     const file = formData.get("file");
 
@@ -36,16 +22,43 @@ export default async function UploadPage() {
       return;
     }
 
-    const uploadPath = path.join(dir, `${path.parse(file.name).name}.png`);
-
     const bytes = await file.arrayBuffer();
 
     const pngBuffer = await sharp(Buffer.from(bytes)).png().toBuffer();
 
-    await fs.writeFile(uploadPath, pngBuffer);
+    const formData2 = new FormData();
 
-    revalidatePath("/upload");
-    revalidatePath("/");
+    formData2.append(
+      "file",
+      new Blob([new Uint8Array(pngBuffer)], { type: "image/png" }),
+      `${path.parse(file.name).name}.png`,
+    );
+
+    try {
+      await fetch(`${process.env.API_URL}/upload`, {
+        method: "POST",
+        body: formData2,
+      });
+    } catch (error) {
+      alert(error);
+    } finally {
+      updateTag("dessins");
+    }
+  };
+
+  const deleteDrawing = async (formData: FormData) => {
+    "use server";
+    const fileName = formData.get("delete") as string;
+
+    try {
+      await fetch(`${process.env.API_URL}/${fileName}`, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      alert(error);
+    } finally {
+      updateTag("dessins");
+    }
   };
 
   return (
@@ -65,7 +78,7 @@ export default async function UploadPage() {
         >
           ✨ LES DESSINS/CRÉATIONS DE SAUCE ✨
         </h2>
-        <Modal drawings={drawings} />
+        <Modal drawings={drawings} action={deleteDrawing} />
       </div>
     </>
   );

@@ -1,26 +1,14 @@
-import fs from "fs/promises";
-import path from "path";
-import sizeOf from "image-size";
 import IDrawing from "@/Interface/IDrawing";
 import Modal from "./Modal";
+import { cacheTag } from "next/cache";
 
 export default async function Dessin() {
-  const publicFolder = path.resolve('public')
-  const dir = path.join(publicFolder, "pesto");
-  const entries = await fs.readdir(dir);
+  "use cache";
+  cacheTag("dessins");
 
-  const drawings: IDrawing[] = await Promise.all(
-    entries.map(async (file) => {
-      const { width, height } = sizeOf(
-        await fs.readFile(path.join(dir, file)),
-      ) as {
-        width: number;
-        height: number;
-      };
-      return { file, width, height };
-    }),
-  );
-
+  const drawings: IDrawing[] = await fetch(
+    `${process.env.API_URL}/images`,
+  ).then((data) => data.json());
 
   return (
     <div className="bg-cyan-200 border-8 border-blue-500 p-6 mb-8">

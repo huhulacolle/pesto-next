@@ -1,15 +1,18 @@
-import fs from "fs/promises";
-import path from "path";
+import IDrawing from "@/Interface/IDrawing";
+import { cacheTag } from "next/cache";
 
 export default async function Cool() {
-  const publicFolder = path.resolve("public");
-  const dir = path.join(publicFolder, "pesto");
-  const entries = await fs.readdir(dir);
+  "use cache";
+  cacheTag("dessins");
+
+  const images: IDrawing[] = await fetch(`${process.env.API_URL}/images`).then(
+    (data) => data.json(),
+  );
 
   return (
     <div className="grid grid-cols-3 gap-4 mb-8">
       <div className="bg-lime-300 border-4 border-green-700 p-4 text-center">
-        <p className="text-4xl font-bold text-green-700"> {entries.length} </p>
+        <p className="text-4xl font-bold text-green-700"> {images.length} </p>
         <p className="text-sm font-bold text-green-700">CRÉATIONS</p>
       </div>
       <div className="bg-orange-300 border-4 border-red-700 p-4 text-center">

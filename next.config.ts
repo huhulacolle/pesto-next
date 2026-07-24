@@ -10,8 +10,12 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
-    unoptimized: true,
+    // unoptimized: false,
+    remotePatterns: [new URL(`${process.env.API_URL}/image/**`)],
+    dangerouslyAllowLocalIP: process.env.NODE_ENV == "development",
   },
+  cacheComponents: true,
 };
 
 export default nextConfig;
+;
