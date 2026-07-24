@@ -73,15 +73,14 @@ export default function Modal(props: {
           onClick={closeModal}
         >
           <div
-            className="relative bg-white p-4 rounded shadow-lg animate-ridiculous border-4 border-purple-500"
+            className="relative bg-white p-4 rounded shadow-lg animate-ridiculous"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
+            {/* eslint-disable @next/next/no-img-element */}
+            <img
               src={selectedImage.file}
-              width={selectedImage.width}
-              height={selectedImage.height}
               alt="dessin agrandi"
-              className="max-w-[80vw] max-h-[80vh] object-contain rounded border-4 border-purple-500"
+              className="max-w-[80vw] max-h-[80vh] object-contain rounded"
             />
             <button
               className="absolute top-2 right-2 text-xl font-bold text-red-600 cursor-pointer"
